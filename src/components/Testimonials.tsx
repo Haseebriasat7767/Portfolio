@@ -1,9 +1,9 @@
 const QUOTES = [
   {
     quote:
-      "NOVA3D turned our product page into an experience people actually screen-record and share. Conversion is up 40% since launch.",
+      "NOVA3D turned our listings page into an experience people actually screen-record and share. Inquiries are up 40% since launch.",
     name: "Sara Whitfield",
-    role: "CMO, Aurelia Jewelry",
+    role: "Marketing Director, Aurelia Ridge",
   },
   {
     quote:

@@ -1,8 +1,11 @@
-const PROJECTS = [
+type Project = { title: string; tag: string; gradient: string; url?: string };
+
+const PROJECTS: Project[] = [
   {
-    title: "Aurelia Jewelry",
-    tag: "3D Product Configurator",
+    title: "Aurelia Ridge",
+    tag: "Real Estate & Land Development Site",
     gradient: "linear-gradient(135deg,#7c5cff,#35e0c9)",
+    url: "https://www.aureliaridge.site/",
   },
   {
     title: "Vertex Labs",
@@ -48,36 +51,47 @@ export default function Work() {
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }} className="work-grid">
-          {PROJECTS.map((p) => (
-            <div key={p.title} className="work-card" style={{ borderRadius: 20, overflow: "hidden", border: "1px solid var(--border)" }}>
-              <div
-                style={{
-                  height: 220,
-                  background: p.gradient,
-                  position: "relative",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+          {PROJECTS.map((p) => {
+            const CardTag = p.url ? "a" : "div";
+            return (
+              <CardTag
+                key={p.title}
+                {...(p.url ? { href: p.url, target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="work-card"
+                style={{ borderRadius: 20, overflow: "hidden", border: "1px solid var(--border)", display: "block" }}
               >
                 <div
                   style={{
-                    position: "absolute",
-                    inset: 0,
-                    background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.25), transparent 60%)",
+                    height: 220,
+                    background: p.gradient,
+                    position: "relative",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
-                />
-                <span style={{ fontSize: 42, fontWeight: 900, color: "rgba(255,255,255,0.9)", letterSpacing: "-0.03em" }}>
-                  {p.title.split(" ")[0][0]}
-                  {p.title.split(" ")[1]?.[0] ?? ""}
-                </span>
-              </div>
-              <div style={{ padding: "20px 22px", background: "var(--panel)" }}>
-                <h3 style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>{p.title}</h3>
-                <p style={{ fontSize: 13.5, color: "var(--muted)" }}>{p.tag}</p>
-              </div>
-            </div>
-          ))}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.25), transparent 60%)",
+                    }}
+                  />
+                  <span style={{ fontSize: 42, fontWeight: 900, color: "rgba(255,255,255,0.9)", letterSpacing: "-0.03em" }}>
+                    {p.title.split(" ")[0][0]}
+                    {p.title.split(" ")[1]?.[0] ?? ""}
+                  </span>
+                </div>
+                <div style={{ padding: "20px 22px", background: "var(--panel)" }}>
+                  <h3 style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>
+                    {p.title}
+                    {p.url && <span style={{ color: "var(--accent-2)", marginLeft: 6, fontSize: 14 }}>↗</span>}
+                  </h3>
+                  <p style={{ fontSize: 13.5, color: "var(--muted)" }}>{p.tag}</p>
+                </div>
+              </CardTag>
+            );
+          })}
         </div>
       </div>
 
