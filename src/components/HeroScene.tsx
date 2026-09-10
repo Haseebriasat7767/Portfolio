@@ -74,6 +74,8 @@ export default function HeroScene() {
       camera={{ position: [0, 0, 6], fov: 45 }}
       dpr={[1, 1.75]}
       gl={{ antialias: true, alpha: true }}
+      aria-label="Animated 3D icosahedron scene representing NOVA3D's WebGL design work"
+      role="img"
     >
       <Suspense fallback={null}>
         <ambientLight intensity={0.4} />

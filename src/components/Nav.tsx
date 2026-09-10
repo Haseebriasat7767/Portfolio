@@ -53,6 +53,8 @@ export default function Nav() {
 
         <button
           aria-label="Toggle menu"
+          aria-expanded={open}
+          aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
           className="menu-btn"
           style={{
@@ -72,6 +74,7 @@ export default function Nav() {
 
       {open && (
         <div
+          id="mobile-menu"
           style={{
             background: "rgba(6,6,10,0.97)",
             borderTop: "1px solid var(--border)",
