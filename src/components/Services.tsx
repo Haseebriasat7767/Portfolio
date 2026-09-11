@@ -1,5 +1,4 @@
 import Eyebrow from "./Eyebrow";
-import Card from "./Card";
 
 const SERVICES = [
   {
