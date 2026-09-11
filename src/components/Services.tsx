@@ -1,3 +1,6 @@
+import Eyebrow from "./Eyebrow";
+import Card from "./Card";
+
 const SERVICES = [
   {
     icon: "◆",
@@ -33,9 +36,10 @@ const SERVICES = [
 
 export default function Services() {
   return (
-    <section id="services">
-      <div className="container">
-        <span className="eyebrow">What we do</span>
+    <section id="services" style={{ position: "relative" }}>
+      <div className="blueprint-grid"></div>
+      <div className="container" style={{ position: "relative", zIndex: 1 }}>
+        <Eyebrow>What we do</Eyebrow>
         <h2 style={{ fontSize: "clamp(2rem, 4vw, 2.8rem)", fontWeight: 800, letterSpacing: "-0.02em", margin: "16px 0 56px", maxWidth: 640 }}>
           Full-service 3D web design, from concept to launch.
         </h2>
@@ -48,17 +52,13 @@ export default function Services() {
           }}
           className="services-grid"
         >
-          {SERVICES.map((s) => (
+          {SERVICES.map((s, i) => (
             <div
               key={s.title}
+              className={`service-card card stagger-${(i % 5) + 1} animate-slide-up`}
               style={{
-                background: "var(--panel)",
-                border: "1px solid var(--border)",
-                borderRadius: 20,
                 padding: "32px 28px",
-                transition: "transform 0.3s ease, border-color 0.3s ease",
               }}
-              className="service-card"
             >
               <div
                 style={{

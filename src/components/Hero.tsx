@@ -1,14 +1,17 @@
 import HeroScene from "./HeroScene";
+import Button from "./Button";
+import Eyebrow from "./Eyebrow";
 
 export default function Hero() {
   return (
-    <section id="top" style={{ paddingTop: 160, paddingBottom: 80, minHeight: "100vh", display: "flex", alignItems: "center" }}>
+    <section id="top" style={{ paddingTop: 160, paddingBottom: 80, minHeight: "100vh", display: "flex", alignItems: "center", background: "var(--gradient-bg)", position: "relative", overflow: "hidden" }}>
+      <div className="blueprint-grid"></div>
       <div
         className="container hero-grid"
-        style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 40, alignItems: "center" }}
+        style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 40, alignItems: "center", position: "relative", zIndex: 1 }}
       >
         <div>
-          <span className="eyebrow">3D web design & development studio</span>
+          <Eyebrow>3D web design & development studio</Eyebrow>
           <h1
             style={{
               fontSize: "clamp(2.4rem, 5.5vw, 4.4rem)",
@@ -25,12 +28,12 @@ export default function Hero() {
             motion-driven sites for brands that refuse to look ordinary.
           </p>
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-            <a href="#contact" className="btn btn-primary">
+            <Button variant="primary" asLink href="#contact">
               Get a free quote →
-            </a>
-            <a href="#work" className="btn btn-ghost">
+            </Button>
+            <Button variant="ghost" asLink href="#work">
               View our work
-            </a>
+            </Button>
           </div>
 
           <div style={{ display: "flex", gap: 40, marginTop: 64, flexWrap: "wrap" }}>

@@ -1,3 +1,6 @@
+import Button from "./Button";
+import Eyebrow from "./Eyebrow";
+
 type Project = { title: string; tag: string; gradient: string; url?: string };
 
 const PROJECTS: Project[] = [
@@ -36,29 +39,30 @@ const PROJECTS: Project[] = [
 
 export default function Work() {
   return (
-    <section id="work" style={{ background: "var(--bg-soft)" }}>
-      <div className="container">
+    <section id="work" style={{ background: "var(--bg-soft)", position: "relative" }}>
+      <div className="blueprint-grid"></div>
+      <div className="container" style={{ position: "relative", zIndex: 1 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 20, marginBottom: 48 }}>
           <div>
-            <span className="eyebrow">Selected work</span>
+            <Eyebrow>Selected work</Eyebrow>
             <h2 style={{ fontSize: "clamp(2rem, 4vw, 2.8rem)", fontWeight: 800, letterSpacing: "-0.02em", marginTop: 16, maxWidth: 560 }}>
               Projects that turned visitors into customers.
             </h2>
           </div>
-          <a href="#contact" className="btn btn-ghost">
+          <Button variant="ghost" asLink href="#contact">
             Start your project →
-          </a>
+          </Button>
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }} className="work-grid">
-          {PROJECTS.map((p) => {
+          {PROJECTS.map((p, i) => {
             const CardTag = p.url ? "a" : "div";
             return (
               <CardTag
                 key={p.title}
                 {...(p.url ? { href: p.url, target: "_blank", rel: "noopener noreferrer" } : {})}
-                className="work-card"
-                style={{ borderRadius: 20, overflow: "hidden", border: "1px solid var(--border)", display: "block" }}
+                className={`work-card card stagger-${(i % 5) + 1} animate-slide-up`}
+                style={{ borderRadius: 20, overflow: "hidden", border: "1px solid var(--border-accent)", display: "block" }}
               >
                 <div
                   style={{
@@ -96,8 +100,15 @@ export default function Work() {
       </div>
 
       <style>{`
-        .work-card { transition: transform 0.35s ease, box-shadow 0.35s ease; }
-        .work-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 24px 60px rgba(0,0,0,0.4); }
+        .work-card {
+          transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+          background: var(--panel);
+        }
+        .work-card:hover {
+          transform: translateY(-8px) scale(1.01);
+          box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+          border-color: rgba(53, 224, 201, 0.2);
+        }
         @media (max-width: 900px) {
           .work-grid { grid-template-columns: 1fr 1fr !important; }
         }
