@@ -114,10 +114,13 @@ export default function BlueprintVisualization({
     window.addEventListener('resize', handleResize);
 
     // Cleanup
+    const currentContainer = containerRef.current;
     return () => {
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationId);
-      containerRef.current?.removeChild(renderer.domElement);
+      if (currentContainer) {
+        currentContainer.removeChild(renderer.domElement);
+      }
       gridGeometry.dispose();
       gridMaterial.dispose();
       cubeGeometry.dispose();
