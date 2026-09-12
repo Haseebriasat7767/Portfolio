@@ -56,8 +56,8 @@ const SERVICES = [
   },
   {
     number: "02",
-    title: "Creative frontend",
-    copy: "Motion, 3D, and thoughtful interaction design used with purpose — never just for decoration.",
+    title: "3D & WebGL experiences",
+    copy: "Immersive WebGL scenes, 3D interactions, and thoughtful motion used with purpose — never just for decoration.",
     icon: "spark" as IconName,
   },
   {
@@ -250,7 +250,7 @@ export default function App() {
         <section className="hero" id="top">
           <div className="hero-background" aria-hidden="true"><div className="hero-glow" /><div className="hero-grid" /><div className="hero-cross cross-one">+</div><div className="hero-cross cross-two">+</div></div>
           <div className="hero-content">
-            <div className="hero-kicker"><span className="eyebrow-line" /> <span>Independent developer · London / worldwide</span><span className="hero-year">( 2026 )</span></div>
+            <div className="hero-kicker"><span className="eyebrow-line" /> <span>3D website &amp; WebGL development · worldwide</span><span className="hero-year">( 2026 )</span></div>
             <div className="hero-heading-wrap">
               <h1><span>MAKE</span><span className="hero-accent">DIGITAL</span><span>MATTER<span className="hero-period">.</span></span></h1>
               <div className="hero-side-note"><span>(scroll to explore)</span><strong>Scroll<br />down <Icon name="arrow" size={16} /></strong></div>
@@ -269,7 +269,7 @@ export default function App() {
           <div className="section-label"><span>01</span><i /> A little about me</div>
           <div className="intro-layout">
             <Reveal className="intro-statement"><h2>I build the <em>digital layer</em> between good ideas and the people they’re for.</h2></Reveal>
-            <Reveal className="intro-copy"><p>I’m a developer with a designer’s eye and a healthy obsession with the details. I partner with ambitious teams to turn rough ideas into clear, expressive, high-performing experiences.</p><p className="copy-muted">From the first line of code to the last pixel, every choice should make the product feel more like itself.</p><a className="text-link" href="#contact">Let’s work together <Icon name="arrow" size={16} /></a></Reveal>
+            <Reveal className="intro-copy"><p>I’m a developer with a designer’s eye and a healthy obsession with the details. I partner with ambitious teams to turn rough ideas into clear, expressive, high-performing 3D websites and WebGL experiences.</p><p className="copy-muted">From the first line of code to the last pixel, every choice should make the product feel more like itself.</p><a className="text-link" href="#contact">Let’s work together <Icon name="arrow" size={16} /></a></Reveal>
           </div>
           <div className="stat-row"><div><strong>06<span>+</span></strong><span>Years building<br />for the web</span></div><div><strong>24<span>+</span></strong><span>Projects shipped<br />with good people</span></div><div><strong>∞</strong><span>Curiosity left<br />in the tank</span></div></div>
         </section>
@@ -282,7 +282,7 @@ export default function App() {
 
         <section className="services section-pad" id="services">
           <div className="section-label"><span>03</span><i /> What I do</div>
-          <div className="services-heading"><Reveal><h2>Clear thinking.<br /><em>Careful craft.</em></h2></Reveal><p>Strategy is only useful when it makes the work better. I keep the process collaborative, the tech appropriate, and the bar high.</p></div>
+          <div className="services-heading"><Reveal><h2>Clear thinking.<br /><em>Careful craft.</em></h2></Reveal><p>Aether is a 3D website and WebGL development studio. I use React, Three.js, and TypeScript to create fast, accessible experiences that make ambitious brands easier to understand and remember.</p></div>
           <div className="service-list">{SERVICES.map((service) => <Reveal key={service.number}><div className="service-row"><span className="service-number">{service.number}</span><div className="service-icon"><Icon name={service.icon} size={21} /></div><h3>{service.title}</h3><p>{service.copy}</p><Icon name="arrow" size={20} /></div></Reveal>)}</div>
           <div className="stack-row"><span className="stack-label">TOOLS I LIKE</span><div>{STACK.map((tool) => <span key={tool}>{tool}</span>)}</div></div>
         </section>
