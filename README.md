@@ -1,11 +1,13 @@
-# NOVA3D — 3D Web Design Agency Portfolio
+# Aether — 3D Website & WebGL Development Studio
 
-A portfolio/agency website built to attract clients looking for immersive 3D websites. Features a real-time WebGL hero scene (React Three Fiber / Three.js), services, selected work, process, testimonials, and a contact section.
+A design-minded portfolio and lead-generation website for Aether Development. The site is positioned around 3D websites, WebGL experiences, Three.js development, and interactive digital systems for product brands, premium real estate, and digital teams.
 
 ## Stack
 
 - React + TypeScript + Vite
-- Three.js via `@react-three/fiber` and `@react-three/drei`
+- Three.js, loaded dynamically for the interactive WebGL hero
+- Responsive CSS with reduced-motion and WebGL fallback support
+- Static SEO service and case-study pages in `public/services` and `public/work`
 
 ## Development
 
@@ -14,16 +16,25 @@ npm install
 npm run dev
 ```
 
-## Build
+## Build and lint
 
 ```bash
+npm run lint
 npm run build
 ```
 
-## Customize
+## SEO routes
 
-- Agency name/branding: `src/components/Nav.tsx`, `Footer.tsx`
-- Hero copy & stats: `src/components/Hero.tsx`
-- 3D scene: `src/components/HeroScene.tsx`
-- Services, work samples, process steps, testimonials: `src/components/*.tsx`
-- Contact details: `src/components/Contact.tsx`
+- `/services/3d-website-development/`
+- `/services/webgl-development/`
+- `/services/threejs-development/`
+- `/work/aurelia-ridge/`
+- `/work/kinetic-commerce/`
+- `/work/vertex-os/`
+
+## Customize before launch
+
+- Replace the placeholder/demo project copy with verified client work and outcomes.
+- Update `hello@aether.dev`, the production canonical domain, and social profile links.
+- Add real client testimonials, awards, and performance measurements only when they can be substantiated.
+- Submit `public/sitemap.xml` in Google Search Console and Bing Webmaster Tools after the production domain is live.

@@ -1,4 +1,5 @@
-import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import type * as THREE from "three";
 
 type IconName = "arrow" | "code" | "layers" | "spark" | "send" | "copy" | "check" | "menu" | "close" | "external";
 
@@ -11,6 +12,7 @@ type Project = {
   tags: string[];
   visual: "aurelia" | "kinetic" | "vertex";
   url?: string;
+  caseStudyUrl?: string;
 };
 
 const PROJECTS: Project[] = [
@@ -24,6 +26,7 @@ const PROJECTS: Project[] = [
     tags: ["React", "Interactive map", "CMS"],
     visual: "aurelia",
     url: "https://www.aureliaridge.site/",
+    caseStudyUrl: "/work/aurelia-ridge/",
   },
   {
     number: "02",
@@ -34,6 +37,7 @@ const PROJECTS: Project[] = [
       "A fast storefront system for a modern goods brand, with reusable components that let the team launch new collections in hours.",
     tags: ["Next.js", "Shopify", "Motion"],
     visual: "kinetic",
+    caseStudyUrl: "/work/kinetic-commerce/",
   },
   {
     number: "03",
@@ -44,6 +48,7 @@ const PROJECTS: Project[] = [
       "A sharp product marketing site that makes a technical platform feel clear, useful, and ready for its next stage of growth.",
     tags: ["TypeScript", "WebGL", "Design system"],
     visual: "vertex",
+    caseStudyUrl: "/work/vertex-os/",
   },
 ];
 
@@ -53,18 +58,21 @@ const SERVICES = [
     title: "Web development",
     copy: "Responsive, accessible websites that are as solid under the hood as they are striking on screen.",
     icon: "code" as IconName,
+    url: "/services/3d-website-development/",
   },
   {
     number: "02",
     title: "3D & WebGL experiences",
     copy: "Immersive WebGL scenes, 3D interactions, and thoughtful motion used with purpose — never just for decoration.",
     icon: "spark" as IconName,
+    url: "/services/webgl-development/",
   },
   {
     number: "03",
     title: "Digital systems",
     copy: "Flexible components and clean foundations that make your next launch faster than your last.",
     icon: "layers" as IconName,
+    url: "/services/threejs-development/",
   },
 ];
 
@@ -115,6 +123,112 @@ function Icon({ name, size = 18 }: { name: IconName; size?: number }) {
 
 function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <div className={`reveal ${className}`}>{children}</div>;
+}
+
+function WebGLDemo() {
+  const mountRef = useRef<HTMLDivElement>(null);
+  const fallbackRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const mount = mountRef.current;
+    if (!mount) return;
+
+    let disposed = false;
+    let cleanup = () => {};
+    import("three").then((THREE) => {
+      if (disposed) return;
+      let renderer: THREE.WebGLRenderer;
+      try {
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+      } catch {
+        if (fallbackRef.current) fallbackRef.current.textContent = "WebGL unavailable — static experience enabled";
+        return;
+      }
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
+      const group = new THREE.Group();
+      const shape = new THREE.Mesh(
+        new THREE.IcosahedronGeometry(1.42, 2),
+        new THREE.MeshBasicMaterial({ color: 0xd7ff4c, wireframe: true, transparent: true, opacity: 0.8 }),
+      );
+      const innerShape = new THREE.Mesh(
+        new THREE.IcosahedronGeometry(0.9, 1),
+        new THREE.MeshBasicMaterial({ color: 0xff674f, wireframe: true, transparent: true, opacity: 0.52 }),
+      );
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(1.95, 0.012, 8, 96),
+        new THREE.MeshBasicMaterial({ color: 0xff674f, transparent: true, opacity: 0.62 }),
+      );
+      const ringTwo = new THREE.Mesh(
+        new THREE.TorusGeometry(1.7, 0.008, 8, 96),
+        new THREE.MeshBasicMaterial({ color: 0xd7ff4c, transparent: true, opacity: 0.42 }),
+      );
+      group.add(shape, innerShape, ring, ringTwo);
+      scene.add(group);
+      camera.position.z = 5.4;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+      renderer.setClearColor(0x000000, 0);
+      mount.appendChild(renderer.domElement);
+
+      const pointer = { x: 0, y: 0 };
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const resize = () => {
+        const width = mount.clientWidth || 420;
+        const height = mount.clientHeight || 420;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height, false);
+      };
+      const move = (event: PointerEvent) => {
+        const bounds = mount.getBoundingClientRect();
+        pointer.x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 0.6;
+        pointer.y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 0.6;
+      };
+      let frame = 0;
+      const animate = () => {
+        frame = requestAnimationFrame(animate);
+        if (!reducedMotion) {
+          group.rotation.x += 0.0025;
+          group.rotation.y += 0.004;
+          ring.rotation.z -= 0.002;
+          ringTwo.rotation.z += 0.0015;
+        }
+        group.rotation.x += (pointer.y - group.rotation.x) * 0.01;
+        group.rotation.y += (pointer.x - group.rotation.y) * 0.01;
+        renderer.render(scene, camera);
+      };
+
+      resize();
+      animate();
+      window.addEventListener("resize", resize);
+      mount.addEventListener("pointermove", move);
+      cleanup = () => {
+        cancelAnimationFrame(frame);
+        window.removeEventListener("resize", resize);
+        mount.removeEventListener("pointermove", move);
+        shape.geometry.dispose();
+        (shape.material as THREE.Material).dispose();
+        innerShape.geometry.dispose();
+        (innerShape.material as THREE.Material).dispose();
+        ring.geometry.dispose();
+        (ring.material as THREE.Material).dispose();
+        ringTwo.geometry.dispose();
+        (ringTwo.material as THREE.Material).dispose();
+        renderer.dispose();
+        if (renderer.domElement.parentNode === mount) mount.removeChild(renderer.domElement);
+      };
+    }).catch(() => {
+      if (fallbackRef.current) fallbackRef.current.textContent = "WebGL unavailable — static experience enabled";
+    });
+
+    return () => {
+      disposed = true;
+      cleanup();
+    };
+  }, []);
+
+  return <div ref={mountRef} className="hero-webgl" aria-label="Interactive WebGL preview"><span ref={fallbackRef} className="webgl-fallback">Interactive WebGL preview</span></div>;
 }
 
 function CodeWindow() {
@@ -248,11 +362,11 @@ export default function App() {
 
       <main>
         <section className="hero" id="top">
-          <div className="hero-background" aria-hidden="true"><div className="hero-glow" /><div className="hero-grid" /><div className="hero-cross cross-one">+</div><div className="hero-cross cross-two">+</div></div>
+          <div className="hero-background" aria-hidden="true"><div className="hero-glow" /><div className="hero-grid" /><WebGLDemo /><div className="hero-cross cross-one">+</div><div className="hero-cross cross-two">+</div></div>
           <div className="hero-content">
-            <div className="hero-kicker"><span className="eyebrow-line" /> <span>3D website &amp; WebGL development · worldwide</span><span className="hero-year">( 2026 )</span></div>
+            <div className="hero-kicker"><span className="eyebrow-line" /> <span>3D websites &amp; WebGL for product brands, real estate &amp; digital teams</span><span className="hero-year">( 2026 )</span></div>
             <div className="hero-heading-wrap">
-              <h1><span>MAKE</span><span className="hero-accent">DIGITAL</span><span>MATTER<span className="hero-period">.</span></span></h1>
+              <h1><span>MAKE</span><span className="hero-accent">3D WEBGL</span><span>MATTER<span className="hero-period">.</span></span></h1>
               <div className="hero-side-note"><span>(scroll to explore)</span><strong>Scroll<br />down <Icon name="arrow" size={16} /></strong></div>
             </div>
             <div className="hero-bottom">
@@ -283,8 +397,9 @@ export default function App() {
         <section className="services section-pad" id="services">
           <div className="section-label"><span>03</span><i /> What I do</div>
           <div className="services-heading"><Reveal><h2>Clear thinking.<br /><em>Careful craft.</em></h2></Reveal><p>Aether is a 3D website and WebGL development studio. I use React, Three.js, and TypeScript to create fast, accessible experiences that make ambitious brands easier to understand and remember.</p></div>
-          <div className="service-list">{SERVICES.map((service) => <Reveal key={service.number}><div className="service-row"><span className="service-number">{service.number}</span><div className="service-icon"><Icon name={service.icon} size={21} /></div><h3>{service.title}</h3><p>{service.copy}</p><Icon name="arrow" size={20} /></div></Reveal>)}</div>
+          <div className="service-list">{SERVICES.map((service) => <Reveal key={service.number}><div className="service-row"><span className="service-number">{service.number}</span><div className="service-icon"><Icon name={service.icon} size={21} /></div><h3><a href={service.url}>{service.title}</a></h3><p>{service.copy}</p><Icon name="arrow" size={20} /></div></Reveal>)}</div>
           <div className="stack-row"><span className="stack-label">TOOLS I LIKE</span><div>{STACK.map((tool) => <span key={tool}>{tool}</span>)}</div></div>
+          <div className="performance-panel"><div className="performance-heading"><span>PERFORMANCE / 01</span><strong>Immersion without the wait.</strong></div><div className="performance-grid"><div><span>01 / ADAPTIVE RENDERING</span><p>Real-time visuals are layered onto a useful HTML experience, with a static path when a device cannot support WebGL.</p></div><div><span>02 / ACCESSIBLE MOTION</span><p>Motion responds to reduced-motion preferences, keyboard navigation, and the content hierarchy.</p></div><div><span>03 / QA BEFORE LAUNCH</span><p>Mobile testing, Lighthouse checks, and a measured handoff keep the experience beautiful after it ships.</p></div></div></div>
         </section>
 
         <section className="ceo-message section-pad" id="message">
@@ -306,7 +421,7 @@ export default function App() {
 
       <footer className="site-footer"><a href="#top" className="brand"><span className="brand-mark">A/</span><span>AETHER<span className="brand-dot">.</span>DEV</span></a><span>© 2026 Aether Development</span><div><a href="https://github.com" target="_blank" rel="noreferrer">GitHub <Icon name="external" size={13} /></a><a href="https://www.linkedin.com" target="_blank" rel="noreferrer">LinkedIn <Icon name="external" size={13} /></a></div></footer>
 
-      {activeProject && <div className="modal-backdrop" role="presentation" onClick={() => setActiveProject(null)}><div className="project-modal" role="dialog" aria-modal="true" aria-label={`${activeProject.title} case study`} onClick={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setActiveProject(null)} aria-label="Close case study"><Icon name="close" size={20} /></button><ProjectVisual visual={activeProject.visual} /><div className="modal-content"><div className="project-meta"><span>{activeProject.number} / {activeProject.type}</span><span>{activeProject.year}</span></div><h2>{activeProject.title}</h2><p>{activeProject.description}</p><div className="tag-list">{activeProject.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>{activeProject.url && <a className="text-link" href={activeProject.url} target="_blank" rel="noreferrer">View live project <Icon name="external" size={15} /></a>}</div></div></div>}
+      {activeProject && <div className="modal-backdrop" role="presentation" onClick={() => setActiveProject(null)}><div className="project-modal" role="dialog" aria-modal="true" aria-label={`${activeProject.title} case study`} onClick={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setActiveProject(null)} aria-label="Close case study"><Icon name="close" size={20} /></button><ProjectVisual visual={activeProject.visual} /><div className="modal-content"><div className="project-meta"><span>{activeProject.number} / {activeProject.type}</span><span>{activeProject.year}</span></div><h2>{activeProject.title}</h2><p>{activeProject.description}</p><div className="tag-list">{activeProject.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>{activeProject.caseStudyUrl && <a className="text-link" href={activeProject.caseStudyUrl}>Read full case study <Icon name="arrow" size={15} /></a>}{activeProject.url && <a className="text-link" href={activeProject.url} target="_blank" rel="noreferrer">View live project <Icon name="external" size={15} /></a>}</div></div></div>}
     </div>
   );
 }
