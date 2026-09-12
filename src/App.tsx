@@ -239,7 +239,8 @@ export default function App() {
           <a href="#work" onClick={closeMenu}><span>01</span>Work</a>
           <a href="#services" onClick={closeMenu}><span>02</span>Capabilities</a>
           <a href="#about" onClick={closeMenu}><span>03</span>About</a>
-          <a href="#contact" onClick={closeMenu}><span>04</span>Contact</a>
+          <a href="#message" onClick={closeMenu}><span>04</span>CEO message</a>
+          <a href="#contact" onClick={closeMenu}><span>05</span>Contact</a>
         </nav>
         <a className="header-availability" href="#contact"><i /> Available for work <Icon name="arrow" size={15} /></a>
         <button className={`menu-toggle ${menuOpen ? "is-open" : ""}`} onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen}><Icon name={menuOpen ? "close" : "menu"} size={21} /></button>
@@ -286,10 +287,18 @@ export default function App() {
           <div className="stack-row"><span className="stack-label">TOOLS I LIKE</span><div>{STACK.map((tool) => <span key={tool}>{tool}</span>)}</div></div>
         </section>
 
-        <section className="manifesto section-pad"><div className="manifesto-glow" /><div className="section-label"><span>04</span><i /> The approach</div><Reveal><h2>Less noise.<br /><span>More signal<span className="accent-dot">.</span></span></h2></Reveal><div className="manifesto-foot"><p>Good digital work should feel obvious in hindsight. I bring structure to the messy middle and make sure the end result is as useful as it is memorable.</p><span>— Aether / studio notes</span></div></section>
+        <section className="ceo-message section-pad" id="message">
+          <div className="section-label"><span>04</span><i /> A note from the CEO</div>
+          <div className="ceo-layout">
+            <Reveal className="ceo-portrait-wrap"><div className="ceo-portrait"><div className="ceo-orbit orbit-a" /><div className="ceo-orbit orbit-b" /><span className="ceo-initials">HR<span>.</span></span><span className="ceo-portrait-label">AETHER / FOUNDER<br />CREATING WITH INTENT</span><span className="ceo-portrait-index">04 — 26</span></div></Reveal>
+            <Reveal className="ceo-copy reveal-delay"><p className="ceo-kicker">From the desk of the CEO</p><h2>Build with purpose.<br /><em>Ship with care.</em></h2><p className="ceo-body">Every project starts with a question: how can this feel more human? At Aether, we believe the best digital work is not built to impress for a moment. It is built to make the right thing easier to understand, use, and remember.</p><p className="ceo-body">My role is to keep the vision clear, the process honest, and the details moving in the same direction. The result should feel unmistakably yours — and work beautifully for the people you want to reach.</p><div className="ceo-signoff"><span>— Haseeb Riasat</span><small>CEO &amp; Lead Developer</small></div></Reveal>
+          </div>
+        </section>
+
+        <section className="manifesto section-pad"><div className="manifesto-glow" /><div className="section-label"><span>05</span><i /> The approach</div><Reveal><h2>Less noise.<br /><span>More signal<span className="accent-dot">.</span></span></h2></Reveal><div className="manifesto-foot"><p>Good digital work should feel obvious in hindsight. I bring structure to the messy middle and make sure the end result is as useful as it is memorable.</p><span>— Aether / studio notes</span></div></section>
 
         <section className="contact section-pad" id="contact">
-          <div className="section-label"><span>05</span><i /> Start a conversation</div>
+          <div className="section-label"><span>06</span><i /> Start a conversation</div>
           <div className="contact-grid"><Reveal><h2>Have something<br /><em>worth building?</em></h2><p className="contact-lede">Tell me a little about it. I’ll get back to you within two working days.</p><div className="contact-details"><a href="mailto:hello@aether.dev">hello@aether.dev <Icon name="arrow" size={16} /></a><span>Based in London · Working worldwide</span></div></Reveal><Reveal className="reveal-delay"><div className="contact-form-wrap">{sent ? <div className="success-message"><span className="success-icon"><Icon name="check" size={22} /></span><h3>Message received.</h3><p>Thanks for reaching out — I’ll be in touch soon.</p><button className="text-link" onClick={() => setSent(false)}>Send another <Icon name="arrow" size={16} /></button></div> : <form onSubmit={handleSubmit}><label><span>Your name</span><input type="text" name="name" placeholder="Jane Smith" required /></label><label><span>Email address</span><input type="email" name="email" placeholder="jane@company.com" required /></label><label><span>Tell me about the project</span><textarea name="message" placeholder="A few words about what you’re working on..." rows={3} required /></label><button className="submit-button" type="submit">Send enquiry <Icon name="send" size={17} /></button></form>}</div></Reveal></div>
           <div className="contact-bottom"><span>Prefer email?</span><button onClick={handleCopy} className="email-copy">{copied ? <Icon name="check" size={15} /> : <Icon name="copy" size={15} />} {copied ? "Copied to clipboard" : "Copy hello@aether.dev"}</button><span className="contact-mark">A/</span></div>
         </section>
