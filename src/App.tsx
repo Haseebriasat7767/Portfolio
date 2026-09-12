@@ -340,6 +340,19 @@ export default function App() {
   };
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const subject = encodeURIComponent(`New Aether project enquiry from ${form.get("name") || "a new client"}`);
+    const body = encodeURIComponent([
+      `Name: ${form.get("name") || ""}`,
+      `Company: ${form.get("company") || ""}`,
+      `Email: ${form.get("email") || ""}`,
+      `Project type: ${form.get("projectType") || ""}`,
+      `Budget: ${form.get("budget") || ""}`,
+      `Timeline: ${form.get("timeline") || ""}`,
+      "",
+      `Project brief: ${form.get("message") || ""}`,
+    ].join("\\n"));
+    window.location.href = `mailto:hello@aether.dev?subject=${subject}&body=${body}`;
     setSent(true);
   };
 
@@ -354,8 +367,9 @@ export default function App() {
           <a href="#work" onClick={closeMenu}><span>01</span>Work</a>
           <a href="#services" onClick={closeMenu}><span>02</span>Capabilities</a>
           <a href="#about" onClick={closeMenu}><span>03</span>About</a>
-          <a href="#message" onClick={closeMenu}><span>04</span>CEO message</a>
-          <a href="#contact" onClick={closeMenu}><span>05</span>Contact</a>
+          <a href="#why-aether" onClick={closeMenu}><span>04</span>Why Aether</a>
+          <a href="#message" onClick={closeMenu}><span>05</span>CEO message</a>
+          <a href="#contact" onClick={closeMenu}><span>06</span>Contact</a>
         </nav>
         <a className="header-availability" href="#contact"><i /> Available for work <Icon name="arrow" size={15} /></a>
         <button className={`menu-toggle ${menuOpen ? "is-open" : ""}`} onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen}><Icon name={menuOpen ? "close" : "menu"} size={21} /></button>
@@ -370,6 +384,7 @@ export default function App() {
               <h1><span>MAKE</span><span className="hero-accent">3D WEBGL</span><span>MATTER<span className="hero-period">.</span></span></h1>
               <div className="hero-side-note"><span>(scroll to explore)</span><strong>Scroll<br />down <Icon name="arrow" size={16} /></strong></div>
             </div>
+            <div className="hero-actions"><a className="hero-action hero-action-primary" href="mailto:hello@aether.dev?subject=3D%20website%20project">Start a project <Icon name="arrow" size={16} /></a><a className="hero-action hero-action-secondary" href="#work">View selected work <Icon name="arrow" size={16} /></a></div>
             <div className="hero-bottom">
               <p>Design-minded development for brands<br />with somewhere to go.</p>
               <CodeWindow />
@@ -403,24 +418,30 @@ export default function App() {
           <div className="performance-panel"><div className="performance-heading"><span>PERFORMANCE / 01</span><strong>Immersion without the wait.</strong></div><div className="performance-grid"><div><span>01 / ADAPTIVE RENDERING</span><p>Real-time visuals are layered onto a useful HTML experience, with a static path when a device cannot support WebGL.</p></div><div><span>02 / ACCESSIBLE MOTION</span><p>Motion responds to reduced-motion preferences, keyboard navigation, and the content hierarchy.</p></div><div><span>03 / QA BEFORE LAUNCH</span><p>Mobile testing, Lighthouse checks, and a measured handoff keep the experience beautiful after it ships.</p></div></div></div>
         </section>
 
+        <section className="why-aether section-pad" id="why-aether">
+          <div className="section-label"><span>04</span><i /> Why Aether</div>
+          <div className="why-heading"><Reveal><h2>Premium output.<br /><em>Direct collaboration.</em></h2></Reveal><p>You get the craft of a creative studio with a shorter line between the idea, the code, and the person making the call.</p></div>
+          <div className="why-grid"><Reveal><div><span>01 / DIRECT COMMUNICATION</span><h3>One senior partner from first sketch to launch.</h3><p>No account-manager relay. Clear decisions, fast feedback, and a developer who understands the reason behind the brief.</p></div></Reveal><Reveal className="reveal-delay"><div><span>02 / DESIGN + DEVELOPMENT</span><h3>The visual idea and the technical reality stay together.</h3><p>Direction, interaction, and implementation are shaped as one system instead of being handed between teams.</p></div></Reveal><Reveal className="reveal-delay-2"><div><span>03 / PERFORMANCE MINDED</span><h3>WebGL that still respects the person on a phone.</h3><p>Every immersive layer has a useful fallback, a mobile plan, and a reason to exist.</p></div></Reveal><Reveal><div><span>04 / CLEAR NEXT STEPS</span><h3>A process you can explain to your team.</h3><p>Scope, milestones, review points, and launch support are visible before the work gets complicated.</p></div></Reveal></div>
+        </section>
+
         <section className="ceo-message section-pad" id="message">
-          <div className="section-label"><span>04</span><i /> A note from the CEO</div>
+          <div className="section-label"><span>05</span><i /> A note from the CEO</div>
           <div className="ceo-layout">
             <Reveal className="ceo-portrait-wrap"><div className="ceo-portrait"><img className="ceo-photo" src="/ceo-photo.jpeg" alt="Haseeb Riasat, CEO and Lead Developer at Aether" onLoad={(event) => event.currentTarget.parentElement?.classList.add("has-photo")} onError={(event) => { event.currentTarget.style.display = "none"; }} /><div className="ceo-orbit orbit-a" /><div className="ceo-orbit orbit-b" /><span className="ceo-initials">HR<span>.</span></span><span className="ceo-portrait-label">AETHER / FOUNDER<br />CREATING WITH INTENT</span><span className="ceo-portrait-index">04 — 26</span></div></Reveal>
             <Reveal className="ceo-copy reveal-delay"><p className="ceo-kicker">From the desk of the CEO</p><h2>Build with purpose.<br /><em>Ship with care.</em></h2><p className="ceo-body">Every project starts with a question: how can this feel more human? At Aether, we believe the best digital work is not built to impress for a moment. It is built to make the right thing easier to understand, use, and remember.</p><p className="ceo-body">My role is to keep the vision clear, the process honest, and the details moving in the same direction. The result should feel unmistakably yours — and work beautifully for the people you want to reach.</p><div className="ceo-signoff"><span>— Haseeb Riasat</span><small>CEO &amp; Lead Developer</small></div></Reveal>
           </div>
         </section>
 
-        <section className="manifesto section-pad"><div className="manifesto-glow" /><div className="section-label"><span>05</span><i /> The approach</div><Reveal><h2>Less noise.<br /><span>More signal<span className="accent-dot">.</span></span></h2></Reveal><div className="manifesto-foot"><p>Good digital work should feel obvious in hindsight. I bring structure to the messy middle and make sure the end result is as useful as it is memorable.</p><span>— Aether / studio notes</span></div></section>
+        <section className="manifesto section-pad"><div className="manifesto-glow" /><div className="section-label"><span>06</span><i /> The approach</div><Reveal><h2>Less noise.<br /><span>More signal<span className="accent-dot">.</span></span></h2></Reveal><div className="manifesto-foot"><p>Good digital work should feel obvious in hindsight. I bring structure to the messy middle and make sure the end result is as useful as it is memorable.</p><span>— Aether / studio notes</span></div></section>
 
         <section className="contact section-pad" id="contact">
-          <div className="section-label"><span>06</span><i /> Start a conversation</div>
-          <div className="contact-grid"><Reveal><h2>Have something<br /><em>worth building?</em></h2><p className="contact-lede">Tell me a little about it. I’ll get back to you within two working days.</p><div className="contact-details"><a href="mailto:hello@aether.dev">hello@aether.dev <Icon name="arrow" size={16} /></a><span>Based in London · Working worldwide</span></div></Reveal><Reveal className="reveal-delay"><div className="contact-form-wrap">{sent ? <div className="success-message"><span className="success-icon"><Icon name="check" size={22} /></span><h3>Message received.</h3><p>Thanks for reaching out — I’ll be in touch soon.</p><button className="text-link" onClick={() => setSent(false)}>Send another <Icon name="arrow" size={16} /></button></div> : <form onSubmit={handleSubmit}><label><span>Your name</span><input type="text" name="name" placeholder="Jane Smith" required /></label><label><span>Email address</span><input type="email" name="email" placeholder="jane@company.com" required /></label><label><span>Tell me about the project</span><textarea name="message" placeholder="A few words about what you’re working on..." rows={3} required /></label><button className="submit-button" type="submit">Send enquiry <Icon name="send" size={17} /></button></form>}</div></Reveal></div>
+          <div className="section-label"><span>07</span><i /> Start a conversation</div>
+          <div className="contact-grid"><Reveal><h2>Have something<br /><em>worth building?</em></h2><p className="contact-lede">Tell me a little about it. I’ll get back to you within two working days.</p><div className="contact-details"><a href="mailto:hello@aether.dev">hello@aether.dev <Icon name="arrow" size={16} /></a><span>Remote studio · Working with US and global teams</span></div></Reveal><Reveal className="reveal-delay"><div className="contact-form-wrap">{sent ? <div className="success-message"><span className="success-icon"><Icon name="check" size={22} /></span><h3>Your brief is ready.</h3><p>Your email app should open with the project details. If it doesn’t, send a note directly to hello@aether.dev.</p><button className="text-link" onClick={() => setSent(false)}>Send another <Icon name="arrow" size={16} /></button></div> : <form onSubmit={handleSubmit}><div className="form-two-up"><label><span>Your name</span><input type="text" name="name" placeholder="Jane Smith" required /></label><label><span>Company</span><input type="text" name="company" placeholder="Company name" /></label></div><label><span>Email address</span><input type="email" name="email" placeholder="jane@company.com" required /></label><div className="form-two-up"><label><span>Project type</span><select name="projectType" defaultValue=""><option value="" disabled>Select one</option><option>3D website</option><option>WebGL experience</option><option>Product configurator</option><option>Other digital project</option></select></label><label><span>Timeline</span><select name="timeline" defaultValue=""><option value="" disabled>When do you want to launch?</option><option>As soon as possible</option><option>1–3 months</option><option>3–6 months</option><option>Just exploring</option></select></label></div><label><span>Budget range</span><select name="budget" defaultValue=""><option value="" disabled>Choose a range</option><option>Under $3,000</option><option>$3,000–$8,000</option><option>$8,000–$20,000</option><option>$20,000+</option><option>Not sure yet</option></select></label><label><span>Tell me about the project</span><textarea name="message" placeholder="A few words about what you’re working on..." rows={3} required /></label><button className="submit-button" type="submit">Open project enquiry <Icon name="send" size={17} /></button></form>}</div></Reveal></div>
           <div className="contact-bottom"><span>Prefer email?</span><button onClick={handleCopy} className="email-copy">{copied ? <Icon name="check" size={15} /> : <Icon name="copy" size={15} />} {copied ? "Copied to clipboard" : "Copy hello@aether.dev"}</button><span className="contact-mark">A/</span></div>
         </section>
       </main>
 
-      <footer className="site-footer"><a href="#top" className="brand"><span className="brand-mark">A/</span><span>AETHER<span className="brand-dot">.</span>DEV</span></a><span>© 2026 Aether Development</span><div><a href="https://github.com" target="_blank" rel="noreferrer">GitHub <Icon name="external" size={13} /></a><a href="https://www.linkedin.com" target="_blank" rel="noreferrer">LinkedIn <Icon name="external" size={13} /></a></div></footer>
+      <footer className="site-footer"><a href="#top" className="brand"><span className="brand-mark">A/</span><span>AETHER<span className="brand-dot">.</span>DEV</span></a><span>© 2026 Aether Development</span><div><a href="https://github.com/Haseebriasat7767" target="_blank" rel="noreferrer">GitHub <Icon name="external" size={13} /></a><a href="mailto:hello@aether.dev">Email <Icon name="arrow" size={13} /></a></div></footer>
 
       {activeProject && <div className="modal-backdrop" role="presentation" onClick={() => setActiveProject(null)}><div className="project-modal" role="dialog" aria-modal="true" aria-label={`${activeProject.title} case study`} onClick={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setActiveProject(null)} aria-label="Close case study"><Icon name="close" size={20} /></button><ProjectVisual visual={activeProject.visual} /><div className="modal-content"><div className="project-meta"><span>{activeProject.number} / {activeProject.type}</span><span>{activeProject.year}</span></div><h2>{activeProject.title}</h2><p>{activeProject.description}</p><div className="tag-list">{activeProject.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>{activeProject.caseStudyUrl && <a className="text-link" href={activeProject.caseStudyUrl}>Read full case study <Icon name="arrow" size={15} /></a>}{activeProject.url && <a className="text-link" href={activeProject.url} target="_blank" rel="noreferrer">View live project <Icon name="external" size={15} /></a>}</div></div></div>}
     </div>
